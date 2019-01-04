@@ -3,6 +3,8 @@ import {
   SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
   REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
+import todos from './todos'
+import visibilityFilter from './visibilityFilter'
 
 const selectedSubreddit = (state = 'affenpinscher', action) => {
   switch (action.type) {
@@ -59,7 +61,9 @@ const postsBySubreddit = (state = { }, action) => {
 
 const rootReducer = combineReducers({
   postsBySubreddit,
-  selectedSubreddit
+  selectedSubreddit,
+  todos,
+  visibilityFilter
 })
 
 export default rootReducer

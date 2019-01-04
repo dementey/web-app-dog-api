@@ -5,7 +5,7 @@ const Posts = ({ posts }) => (
   <ul>
     {posts.map((post, i) =>
       //<li key={i}>{post.title}</li>
-      <li key={i}><img alt={post} src={post} /></li>
+      <img  key={i}alt={post} src={post} />
     )}
   </ul>
 )
