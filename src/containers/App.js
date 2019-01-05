@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { selectSubreddit, fetchPostsIfNeeded, invalidateSubreddit } from '../actions'
+import { selectSubreddit, initialFetchPosts, fetchPostsIfNeeded, invalidateSubreddit } from '../actions'
 import SimpleAppBar from '../components/SimpleAppBar';
 import PagesRouter from '../components/PagesRouter'
 import Footer from '../components/Footer'
@@ -19,13 +19,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     const { dispatch, selectedSubreddit } = this.props
+    dispatch(initialFetchPosts())
     dispatch(fetchPostsIfNeeded(selectedSubreddit))
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.selectedSubreddit !== this.props.selectedSubreddit) {
       const { dispatch, selectedSubreddit } = this.props
+      //dispatch(initialFetchPosts())
       dispatch(fetchPostsIfNeeded(selectedSubreddit))
     }
   }
@@ -43,16 +46,18 @@ class App extends Component {
   }
 
   render() {
-    const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props
+    const { selectedSubreddit,  initialposts, posts, isFetching, lastUpdated } = this.props
     const isEmpty = posts.length === 0
+    console.log(initialposts);
     return (
       <BrowserRouter>
         <Fragment>
           <SimpleAppBar />
-
+          <PagesRouter />
           <Picker value={selectedSubreddit}
             onChange={this.handleChange}
-            options={['affenpinscher', 'african']} />
+           // options={['affenpinscher', 'african']} />
+           options={['affenpinscher', 'african']||initialposts} />
           <p>
             {lastUpdated &&
               <span>
@@ -72,7 +77,7 @@ class App extends Component {
               <Posts posts={posts} />
             </div>
           }
-          <PagesRouter />
+
           <Footer />
         </Fragment>
       </BrowserRouter>
@@ -81,7 +86,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { selectedSubreddit, postsBySubreddit } = state
+  const { selectedSubreddit, initialPostsBySubreddit,  postsBySubreddit } = state
   const {
     isFetching,
     lastUpdated,
@@ -90,9 +95,11 @@ const mapStateToProps = state => {
     isFetching: true,
     items: []
   }
+  const { items2: initialposts } = initialPostsBySubreddit
 
   return {
     selectedSubreddit,
+    initialposts,
     posts,
     isFetching,
     lastUpdated
