@@ -4,32 +4,12 @@ import {
   INITIAL_REQUEST_POSTS, INITIAL_RECEIVE_POSTS,
   REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
-//import todos from './todos'
-//import visibilityFilter from './visibilityFilter'
+
 
 const selectedSubreddit = (state = 'affenpinscher', action) => {
   switch (action.type) {
     case SELECT_SUBREDDIT:
       return action.subreddit
-    default:
-      return state
-  }
-}
-
-const initialposts = (state = {
-  items2: []
-}, action) => {
-  switch (action.type) {
-    case INITIAL_REQUEST_POSTS:
-      return {
-        ...state
-      }
-    case INITIAL_RECEIVE_POSTS:
-      {//console.log (action.initialposts)
-        return {
-        ...state,
-        items2: action.initialposts
-      }}
     default:
       return state
   }
@@ -67,13 +47,13 @@ const posts = (state = {
 }
 
 const initialPostsBySubreddit = (state = {}, action) => {
-   switch (action.type) {
+  switch (action.type) {
     case INVALIDATE_SUBREDDIT:
     case INITIAL_RECEIVE_POSTS:
     case INITIAL_REQUEST_POSTS:
       return {
         ...state,
-        items2: initialposts(state[action.initialsubreddit], action)
+        items2: action.initialposts
       }
     default:
       return state
@@ -101,8 +81,6 @@ const rootReducer = combineReducers({
   initialPostsBySubreddit,
   postsBySubreddit,
   selectedSubreddit,
-  //todos,
- // visibilityFilter
 })
 
 export default rootReducer

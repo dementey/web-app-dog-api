@@ -7,7 +7,7 @@ import SimpleAppBar from '../components/SimpleAppBar';
 import PagesRouter from '../components/PagesRouter'
 import Footer from '../components/Footer'
 import Picker from '../components/Picker'
-import Posts from '../components/Posts'
+import ImageGridList from '../components/ImageGridList'
 
 class App extends Component {
   static propTypes = {
@@ -17,7 +17,10 @@ class App extends Component {
     lastUpdated: PropTypes.number,
     dispatch: PropTypes.func.isRequired
   }
-
+  componentWillMount() {
+    const { dispatch } = this.props
+    dispatch(initialFetchPosts())
+  }
   componentDidMount() {
 
     const { dispatch, selectedSubreddit } = this.props
@@ -41,23 +44,24 @@ class App extends Component {
     e.preventDefault()
 
     const { dispatch, selectedSubreddit } = this.props
+    dispatch(initialFetchPosts())
     dispatch(invalidateSubreddit(selectedSubreddit))
     dispatch(fetchPostsIfNeeded(selectedSubreddit))
   }
 
   render() {
-    const { selectedSubreddit,  initialposts, posts, isFetching, lastUpdated } = this.props
+    const { selectedSubreddit, initial, posts, isFetching, lastUpdated } = this.props
     const isEmpty = posts.length === 0
-    console.log(initialposts);
     return (
       <BrowserRouter>
         <Fragment>
           <SimpleAppBar />
           <PagesRouter />
-          <Picker value={selectedSubreddit}
+
+          {initial &&<Picker value={selectedSubreddit}
             onChange={this.handleChange}
-           // options={['affenpinscher', 'african']} />
-           options={['affenpinscher', 'african']||initialposts} />
+            options={initial} />
+          }
           <p>
             {lastUpdated &&
               <span>
@@ -74,7 +78,7 @@ class App extends Component {
           {isEmpty
             ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
             : <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-              <Posts posts={posts} />
+              <ImageGridList tileData={posts}/>
             </div>
           }
 
@@ -86,7 +90,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { selectedSubreddit, initialPostsBySubreddit,  postsBySubreddit } = state
+  const { selectedSubreddit, initialPostsBySubreddit, postsBySubreddit } = state
   const {
     isFetching,
     lastUpdated,
@@ -95,11 +99,10 @@ const mapStateToProps = state => {
     isFetching: true,
     items: []
   }
-  const { items2: initialposts } = initialPostsBySubreddit
-
+  const { items2: initial } = initialPostsBySubreddit || { items2: [] }
   return {
     selectedSubreddit,
-    initialposts,
+    initial,
     posts,
     isFetching,
     lastUpdated

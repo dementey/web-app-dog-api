@@ -36,10 +36,6 @@ const SimpleAppBar = (props) => {
             <Button variant="contained" color="primary" className={classes.button} >
               Home
           </Button></NavLink>
-          <NavLink to="/listallbreeds" >
-            <Button variant="contained" color="primary" className={classes.button} >
-              List all breeds
-          </Button></NavLink>
           <NavLink to="/bybreed">
             <Button variant="contained" color="primary" className={classes.button} >
               By breed
