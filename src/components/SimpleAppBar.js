@@ -36,9 +36,9 @@ const SimpleAppBar = (props) => {
             <Button variant="contained" color="primary" className={classes.button} >
               Home
           </Button></NavLink>
-          <NavLink to="/bybreed">
+          <NavLink to="/bysubbreed">
             <Button variant="contained" color="primary" className={classes.button} >
-              By breed
+              By sub-breed
           </Button></NavLink>
           <NavLink to="/randomimage">
             <Button variant="contained" color="primary" className={classes.button} >

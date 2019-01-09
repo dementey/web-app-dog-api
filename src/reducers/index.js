@@ -2,7 +2,9 @@ import { combineReducers } from 'redux'
 import {
   SELECT_SUBREDDIT, INVALIDATE_SUBREDDIT,
   INITIAL_REQUEST_POSTS, INITIAL_RECEIVE_POSTS,
-  REQUEST_POSTS, RECEIVE_POSTS
+  REQUEST_POSTS, RECEIVE_POSTS,
+  INITIAL_RECEIVE_SUBBREED
+
 } from '../actions'
 
 
@@ -77,10 +79,22 @@ const postsBySubreddit = (state = {}, action) => {
   }
 }
 
+const initialSubBreed = (state = {}, action) => {
+  switch (action.type) {
+    case INITIAL_RECEIVE_SUBBREED:
+      return {
+        ...state,
+        items3: action.subbreed
+      }
+    default:
+      return state
+  }
+}
 const rootReducer = combineReducers({
   initialPostsBySubreddit,
   postsBySubreddit,
   selectedSubreddit,
+  initialSubBreed,
 })
 
 export default rootReducer

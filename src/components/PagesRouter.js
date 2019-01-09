@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
-import ByBreed from './ByBreed';
+import BySubBreed from './BySubBreed';
 import RandomImage from './RandomImage'
 
 class PagesRouter extends React.Component {
@@ -11,7 +11,7 @@ class PagesRouter extends React.Component {
     return (
       <div>
         <Route path="/" exact component={Home} />
-        <Route path="/bybreed" component={ByBreed} />
+        <Route path="/bysubbreed" component={BySubBreed} />
         <Route path="/randomimage" component={RandomImage} />
       </div>
     );

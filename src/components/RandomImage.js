@@ -1,7 +1,6 @@
 import React from 'react';
 import isoFetch from 'isomorphic-fetch';
-
-
+import MediaCard from './MediaCard';
 class RandomImage extends React.PureComponent {
 
     // eslint-disable-next-line no-useless-constructor
@@ -74,9 +73,9 @@ class RandomImage extends React.PureComponent {
             return <div>загрузка данных...</div>;
 
         return (
-            <div>
-                <img src={this.state.message} alt={this.state.message} onClick={this.loadData} />
-            </div >
+            <MediaCard srcImg={this.state.message} cbOnClick={this.loadData}>
+                <img srcImg={this.state.message} alt={this.state.message}  />
+            </MediaCard >
         );
     }
 }

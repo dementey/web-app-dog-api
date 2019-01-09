@@ -1,7 +1,10 @@
 export const INITIAL_REQUEST_POSTS = 'INITIAL_REQUEST_POSTS'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
+
 export const INITIAL_RECEIVE_POSTS = 'INITIAL_RECEIVE_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const INITIAL_RECEIVE_SUBBREED = 'INITIAL_RECEIVE_SUBBREED'
+
 export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT'
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
 
@@ -33,9 +36,14 @@ export const initialReceivePosts = (json) => ({
 export const receivePosts = (subreddit, json) => ({
   type: RECEIVE_POSTS,
   subreddit,
-  //posts: json.data.children.map(child => child.data),
   posts: json.message.map(child => child),
   receivedAt: Date.now()
+})
+
+export const initialReceiveSubbreed = (json) => ({
+  type: INITIAL_RECEIVE_SUBBREED,
+  subbreed: Object.keys(json.message),
+
 })
 
 export const initialFetchPosts = () => dispatch => {
@@ -47,12 +55,16 @@ export const initialFetchPosts = () => dispatch => {
 
 const fetchPosts = subreddit => dispatch => {
   dispatch(requestPosts(subreddit))
-  //return fetch(`https://www.reddit.com/r/${subreddit}.json`)
   return fetch(`https://dog.ceo/api/breed/${subreddit}/images`)
     .then(response => response.json())
     .then(json => dispatch(receivePosts(subreddit, json)))
 }
 
+export const initialFetchSubBreed = subreddit => dispatch => {
+  return fetch(`https://dog.ceo/api/breed/${subreddit}/list`)
+    .then(response => response.json())
+    .then(json => dispatch(initialReceiveSubbreed(json)))
+}
 
 
 const shouldFetchPosts = (state, subreddit) => {

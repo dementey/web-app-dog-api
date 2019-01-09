@@ -1,18 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import SimpleSelect from './SimpleSelect'
 
-const Picker = ({ value, onChange, options }) => (
-  <span>
-    <h1>Selected breed of dog - {value}</h1>
-    <select onChange={e => onChange(e.target.value)}
-            value={value}>
-      {options.map(option =>
-        <option value={option} key={option}>
-          {option}
-        </option>)
-      }
-    </select>
-  </span>
+
+const Picker = ({ value, onChange, options, inputLabel }) => (
+  <Fragment>
+    Selected breed of dog - {value}
+    <SimpleSelect options={options} cbOnChange={onChange} inputLabel={inputLabel}></SimpleSelect>
+  </Fragment>
 )
 
 Picker.propTypes = {

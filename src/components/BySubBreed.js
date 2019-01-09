@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { selectSubreddit, initialFetchPosts, fetchPostsIfNeeded, invalidateSubreddit } from '../actions'
+import { selectSubreddit, initialFetchPosts, initialFetchSubBreed, fetchPostsIfNeeded, invalidateSubreddit } from '../actions'
 import Picker from '../components/Picker'
 import ImageGridList from '../components/ImageGridList'
 import Typography from '@material-ui/core/Typography';
@@ -11,7 +11,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import PaperSheet from './PaperSheet'
 
-class Home extends Component {
+class BySubBreed extends Component {
     static propTypes = {
         selectedSubreddit: PropTypes.string.isRequired,
         posts: PropTypes.array.isRequired,
@@ -22,11 +22,14 @@ class Home extends Component {
     componentWillMount() {
         const { dispatch } = this.props
         dispatch(initialFetchPosts())
+        
     }
     componentDidMount() {
 
         const { dispatch, selectedSubreddit } = this.props
         dispatch(fetchPostsIfNeeded(selectedSubreddit))
+        dispatch(initialFetchSubBreed(selectedSubreddit))
+        
     }
 
     componentDidUpdate(prevProps) {
@@ -44,14 +47,15 @@ class Home extends Component {
         e.preventDefault()
 
         const { dispatch, selectedSubreddit } = this.props
-        dispatch(initialFetchPosts())
+        dispatch(initialFetchSubBreed())
         dispatch(invalidateSubreddit(selectedSubreddit))
         dispatch(fetchPostsIfNeeded(selectedSubreddit))
     }
 
     render() {
-        const { selectedSubreddit, initial, posts, isFetching, lastUpdated } = this.props
+        const { selectedSubreddit, initial, posts, subbreed, isFetching, lastUpdated } = this.props
         const isEmpty = posts.length === 0
+        console.log(subbreed)
         return (
             <Fragment>
 
@@ -63,6 +67,11 @@ class Home extends Component {
                                 onChange={this.handleChange}
                                 options={initial}
                                 inputLabel="Breed" />
+                            }
+                            {initial && <Picker value={selectedSubreddit}
+                                onChange={this.handleChange}
+                                options={initial}
+                                inputLabel="Sub-breed" />
                             }
                         </Typography>
                     </GridListTile>
@@ -93,7 +102,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-    const { selectedSubreddit, initialPostsBySubreddit, postsBySubreddit } = state
+    const { selectedSubreddit, initialPostsBySubreddit, initialSubBreed, postsBySubreddit } = state
     const {
         isFetching,
         lastUpdated,
@@ -103,13 +112,15 @@ const mapStateToProps = state => {
         items: []
     }
     const { items2: initial } = initialPostsBySubreddit || { items2: [] }
+    const { items3: subbreed } = initialSubBreed || { items3: [] }
     return {
         selectedSubreddit,
         initial,
+        subbreed,
         posts,
         isFetching,
         lastUpdated
     }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(BySubBreed)
