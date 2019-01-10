@@ -29,7 +29,7 @@ const SimpleAppBar = (props) => {
     <div className={classes.root} >
       <AppBar position="static" >
         <Toolbar>
-          <IconButton color="inherit" aria-label="Menu" href="/">
+          <IconButton color="inherit" aria-label="Menu">
             <Pets />
           </IconButton>
           <NavLink to="/">
