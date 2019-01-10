@@ -29,17 +29,17 @@ const SimpleAppBar = (props) => {
     <div className={classes.root} >
       <AppBar position="static" >
         <Toolbar>
-          <IconButton color="inherit" aria-label="Menu"  href="/">
+          <IconButton color="inherit" aria-label="Menu" href="/">
             <Pets />
           </IconButton>
           <NavLink to="/">
             <Button variant="contained" color="primary" className={classes.button} >
               Home
           </Button></NavLink>
-          <NavLink to="/bysubbreed">
+          {/*<NavLink to="/bysubbreed">
             <Button variant="contained" color="primary" className={classes.button} >
               By sub-breed
-          </Button></NavLink>
+            </Button></NavLink>*/}
           <NavLink to="/randomimage">
             <Button variant="contained" color="primary" className={classes.button} >
               Random image
